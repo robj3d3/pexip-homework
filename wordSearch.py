@@ -4,7 +4,7 @@ class SearchGrid():
     grid = ""
     ROW_LENGTH = 0
     GRID_LENGTH = 0
-    TRIE_DEPTH = 3
+    TRIE_DEPTH = 2
     trieDict = {}
 
     def __init__(self, gridString):
@@ -15,8 +15,6 @@ class SearchGrid():
 
     # Pre-processing method to generate flattened "trie" from gridString
     def populateTrie(self):
-        print("Hello World")
-
         for i in range (0, self.GRID_LENGTH):
             horizontalString = verticalString = ""
             currentChar = self.grid[i]
@@ -50,12 +48,67 @@ class SearchGrid():
             if (len(str) == self.TRIE_DEPTH):
                 self.trieDict[str].append(index)
 
+    # Given index in the grid, returns character that is stepRight chars horizontally right of index
+    # Only returns character if it's on same row as index
+    def getAdjacentCharRight(self, index, stepRight):
+        charPosition = (index + stepRight)
+        rowRemaining = (int(round(index/self.ROW_LENGTH)+1)*self.ROW_LENGTH-index-1)
+
+        if ((index >= 0) and (charPosition < self.GRID_LENGTH) and (rowRemaining >= stepRight) and (stepRight >= 0)):
+            return self.grid[charPosition]
+        else:
+            return ''
+
+    def getAdjacentCharDown(self, index, stepDown):
+        charPosition = (index + (stepDown*self.ROW_LENGTH))
+
+        if ((index >= 0) and (charPosition < self.GRID_LENGTH) and (index < self.GRID_LENGTH) and (stepDown >= 0)):
+            return self.grid[charPosition]
+        else:
+            return ''
 
 
 class WordSearch():
-    def __init__(self, grid):
-        trieGrid = SearchGrid(grid)
-        print(trieGrid.trieDict)
+    trieGrid = {}
 
+    def __init__(self, grid):
+        self.trieGrid = SearchGrid(grid)
+
+    # Returns true if word exists in grid horizontally right or vertically down, else returns false
     def is_present(self, word):
+
+        prefixPositions = []
+        trieDepth = self.trieGrid.TRIE_DEPTH
+
+        # If word length is less than trie depth, entire word will exist in trie
+        if (len(word) <= trieDepth):
+            try:
+                found = self.trieGrid.trieDict[word]
+                return True
+            except: # Exception thrown if word doesn't exist in trie (i.e. doesn't exist in grid)
+                return False
+        else:
+            try:
+                # At every position in the grid where the word's prefix string exists
+                prefixPositions = self.trieGrid.trieDict[word[:trieDepth]]
+                for pos in range (0, len(prefixPositions)):
+                    if (self.existsRight(word, prefixPositions[pos]) or self.existsDown(word, prefixPositions[pos])):
+                        return True
+                return False  
+            except:
+
+                return False
+    
+    # Compares word against all words in the grid that are prefixed the same horizontally right
+    # Returns True if word horizontally right is same as word
+    def existsRight(self, word, pos):
+        for i in range (0, len(word)):
+            if (word[i] != self.trieGrid.getAdjacentCharRight(pos, i)):
+                return False
+        return True
+
+    def existsDown(self, word, pos):
+        for i in range (0, len(word)):
+            if (word[i] != self.trieGrid.getAdjacentCharDown(pos, i)):
+                return False
         return True
