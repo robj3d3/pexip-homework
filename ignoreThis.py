@@ -2,6 +2,8 @@ from random import choice, randint
 import math
 from string import ascii_lowercase
 
+### Iteration of functions for wordSearchTests.py ###
+
 #def generateWords(noOfWords, grid):
 #    wordsList = []
 #    row_length = int(math.sqrt(len(grid)))
@@ -24,34 +26,32 @@ from string import ascii_lowercase
 #            print(j)
 #            newWord += grid[j]
 
-#        print("hey")
+#        print("---")
 #        print(newWord)
 #        wordsList.append(newWord)
-           
-
 
 #    return wordsList                        
 
 # Generates horizontal word from substring of grid
 # Grid must be at least 26x26
-def generateHorizontalWord(grid):
-    row_length = int(math.sqrt(len(grid)))
-    randomWordLength = randint(1, 4) # change to 26
-    randomRow = randint(0, row_length-1)
-    randomColumn = randint(0, row_length-randomWordLength)
-    wordIndex = (randomRow * row_length) + randomColumn
-    return grid[wordIndex:wordIndex+randomWordLength]
+#def generateHorizontalWord(grid):
+#    row_length = int(math.sqrt(len(grid)))
+#    randomWordLength = randint(1, 4) # change to 26
+#    randomRow = randint(0, row_length-1)
+#    randomColumn = randint(0, row_length-randomWordLength)
+#    wordIndex = (randomRow * row_length) + randomColumn
+#    return grid[wordIndex:wordIndex+randomWordLength]
 
-def generateVerticalWord(grid):
-    row_length = int(math.sqrt(len(grid)))
-    verticalWord = ""
-    randomWordLength = randint(1, 4) # change to 26
-    randomColumn = randint(0, row_length-1)
-    randomRow = randint(0, row_length-randomWordLength)
-    wordIndex = (randomRow * row_length) + randomColumn
-    for i in range(0, randomWordLength):
-        verticalWord += grid[wordIndex + (i*row_length)]
-    return verticalWord
+#def generateVerticalWord(grid):
+#    row_length = int(math.sqrt(len(grid)))
+#    verticalWord = ""
+#    randomWordLength = randint(1, 4) # change to 26
+#    randomColumn = randint(0, row_length-1)
+#    randomRow = randint(0, row_length-randomWordLength)
+#    wordIndex = (randomRow * row_length) + randomColumn
+#    for i in range(0, randomWordLength):
+#        verticalWord += grid[wordIndex + (i*row_length)]
+#    return verticalWord
 
 
-print(generateVerticalWord("abcdaeaghijalaaa"))
+#print(generateVerticalWord("abcdaeaghijalaaa"))
