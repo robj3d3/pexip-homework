@@ -38,10 +38,9 @@ class SearchGrid():
                     self.addStringValue(verticalString, i)
                     
 
+    # Create new key,value pair if string is new, otherwise only add index
+    # to existing index list if string length equals trie depth (as could prefix longer word)
     def addStringValue(self, str, index):
-        
-        # Create new key,value pair if string is new, otherwise only add index
-        # to existing index list if string length equals trie depth (as could prefix longer word)
         if (not(str in self.trieDict)):
             self.trieDict.update({str:[index]})
         else:
@@ -76,7 +75,6 @@ class WordSearch():
 
     # Returns true if word exists in grid horizontally right or vertically down, else returns false
     def is_present(self, word):
-
         prefixPositions = []
         trieDepth = self.trieGrid.TRIE_DEPTH
 
